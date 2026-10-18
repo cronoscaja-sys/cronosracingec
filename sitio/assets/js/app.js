@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const answers={
     diferencias:'PRO: plataforma con movimiento y tres pantallas de 40 pulgadas; MINI: sin movimiento y una pantalla. RC 1/18: automóvil más compacto y económico; RC 1/10: automóvil de mayor tamaño. Ambos RC se manejan a distancia y permiten practicar derrapes.',
     precios:'Simuladores PRO: 10 min $6, 20 min $12, 30 min $18. Simuladores MINI: 10 min $3, 20 min $6, 30 min $9. RC Drift 1/18: 6 min $2, 12 min $3, 25 min $6. RC Drift 1/10: 6 min $3, 12 min $5, 25 min $10. Precios por equipo y sesión.',
-    horarios:'🏁 ¡Te esperamos en Cronos Racing! 🏎️ Nuestro horario de atención es de lunes a sábado de 10:00 a 20:30 y domingos de 10:00 a 20:00.',
+    horarios:'🏁 ¡Te esperamos en Cronos Racing! 🏎️ Nuestro horario de atención es de Domingo a Jueves de 10:00 a 20:30, Viernes y Sabádos de 10:00 a 21:00.',
     reservas:'Puedes preparar tu solicitud en la sección Reservas. La reserva se guarda en tu dispositivo y debe confirmarse con nuestro equipo por WhatsApp; no se confirma automáticamente.',
     ubicacion:'Estamos en Rayoloma, Av. González Suárez, 010107 Cuenca, Ecuador. Encuéntranos dentro de Monay Shopping, nivel 2. ¡Te esperamos en Cronos Racing!',
     eventos:'Organizamos cumpleaños, experiencias para grupos y campeonatos. Visita la sección Eventos o escríbenos por WhatsApp para coordinar.'
