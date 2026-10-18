@@ -1,0 +1,1 @@
+Subir fotos aquí y agregar registros en assets/js/galeria.js

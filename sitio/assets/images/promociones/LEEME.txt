@@ -1,0 +1,1 @@
+Sube aqui fotos de promociones. Despues agregalas en assets/js/promociones.js.

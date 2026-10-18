@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cronos Racing Cuenca: simuladores de carreras, RC Drift, membresías, eventos y promociones. Encuéntranos en Monay Shopping, nivel 2.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#07090d">
+<title>Reservar | Cronos Racing</title>
+<link rel="icon" href="assets/images/logo-oficial.png">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html"><img src="assets/images/logo-oficial.png" alt="Cronos Racing"></a>
+    <button class="menu-btn" aria-label="Abrir menú">☰</button>
+    <nav class="nav-links">
+      <a class="" href="index.html">Inicio</a><a class="" href="simuladores.html">Simuladores</a><a class="" href="juegos.html">Juegos</a><a class="" href="membresias.html">Membresías</a><a class="" href="eventos.html">Eventos</a><a class="" href="rc-drift.html">RC Drift</a><a class="" href="galeria.html">Galería</a><a class="" href="nosotros.html">Nosotros</a><a class="" href="contacto.html">Contacto</a>
+      <a class="nav-cta active" href="reservar.html">Reservar</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Solicitud local</span>
+    <h1>Reserva tu <span class="accent">experiencia</span></h1>
+    <p>Elige cuántos simuladores y vehículos RC quieres utilizar. La solicitud se guarda en este dispositivo y funciona sin internet.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-grid">
+    <div class="contact-card">
+      <span class="kicker">Funciona offline</span>
+      <h2>Arma tu reserva</h2>
+      <p>Puedes combinar Simuladores PRO, MINI y coches RC en una misma solicitud.</p>
+      <div class="notice">Completa tu solicitud y envíala por WhatsApp. La reserva no está confirmada hasta recibir respuesta de nuestro equipo.</div>
+      <div class="contact-list">
+        <div><b>Simuladores disponibles</b><br>PRO y MINI</div>
+        <div><b>Coches RC</b><br>Escala 1/10 y 1/18</div>
+        <div><b>WhatsApp</b><br>0998691805</div>
+        <div><b>Dirección</b><br>Monay Shopping – Nivel 2</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Solicitud de reserva</h2>
+      <form id="bookingForm">
+        <div class="form-row">
+          <div><label>Nombre</label><input name="nombre" required placeholder="Nombre del piloto o responsable"></div>
+          <div><label>Teléfono</label><input name="telefono" required placeholder="Número de contacto"></div>
+        </div>
+
+        <div class="form-row">
+          <div><label>Fecha</label><input type="date" name="fecha" required></div>
+          <div><label>Hora</label><input type="time" name="hora" required></div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Tipo de reserva</label>
+            <select name="tipoReserva">
+              <option>Sesión normal</option>
+              <option>Evento / cumpleaños</option>
+              <option>Campeonato / reto</option>
+              <option>Membresía</option>
+            </select>
+          </div>
+          <div>
+            <label>Número de personas</label>
+            <input type="number" name="personas" min="1" value="1">
+          </div>
+        </div>
+
+        <div class="cr-feature"><b>Tarifas por equipo</b><p>PRO: 10 min $6 · 20 min $12 · 30 min $18<br>MINI: 10 min $3 · 20 min $6 · 30 min $9<br>RC 1/18: 6 min $2 · 12 min $3 · 25 min $6<br>RC 1/10: 6 min $3 · 12 min $5 · 25 min $10</p><small>Las duraciones de los simuladores y RC son diferentes. Indica las sesiones deseadas en las notas.</small></div><div class="equipment-box">
+          <div class="equipment-title">
+            <div><span class="kicker">Equipos</span><h3>¿Cuántos quieres utilizar?</h3></div>
+            <small>Puedes dejar en 0 los que no necesites.</small>
+          </div>
+          <div class="equipment-grid">
+            <label class="equipment-item">
+              <span><b>Simuladores PRO</b><small>Movimiento + triple pantalla</small></span>
+              <input type="number" name="cantPro" min="0" max="5" value="0">
+            </label>
+            <label class="equipment-item">
+              <span><b>Simuladores MINI</b><small>Formato compacto</small></span>
+              <input type="number" name="cantMini" min="0" max="4" value="0">
+            </label>
+            <label class="equipment-item">
+              <span><b>RC escala 1/10</b><small>Coches de mayor tamaño</small></span>
+              <input type="number" name="cantRC10" min="0" max="9" value="0">
+            </label>
+            <label class="equipment-item">
+              <span><b>RC escala 1/18</b><small>Formato compacto</small></span>
+              <input type="number" name="cantRC18" min="0" max="9" value="0">
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Juego preferido</label>
+            <select name="juego">
+              <option>Sin preferencia</option>
+              <option>F1 25</option>
+              <option>Assetto Corsa</option>
+              <option>Assetto Corsa Competizione</option>
+              <option>DiRT Rally 2.0</option>
+            </select>
+          </div>
+          <div>
+            <label>Duración referencial (simuladores)</label>
+            <select name="duracion">
+              <option>Por definir</option>
+              <option>6 minutos (RC)</option><option>10 minutos</option>
+              <option>12 minutos (RC)</option><option>20 minutos</option>
+              <option>25 minutos (RC)</option><option>30 minutos</option>
+              <option>60 minutos</option>
+              <option>90 minutos</option>
+              <option>Evento / bloque especial</option>
+            </select>
+          </div>
+        </div>
+
+        <div><label>Notas</label><textarea name="notas" placeholder="Edades, competencia, cumpleaños, preferencias, etc."></textarea></div>
+        <div id="equipmentError" class="form-error"></div>
+        <div id="savedMessage" class="saved"></div>
+        <div class="btns">
+          <button class="btn primary" id="sendBookingWhatsapp" type="button">Enviar solicitud por WhatsApp</button>
+          <button class="btn" type="submit">Guardar borrador</button>
+          <button class="btn" id="downloadBooking" type="button">Descargar .txt</button>
+          <button class="btn" id="copyBooking" type="button">Copiar solicitud</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <img src="assets/images/logo-oficial.png" alt="Cronos Racing">
+      <p>Sim racing, competencia, RC y experiencias de automovilismo para todas las edades.</p>
+    </div>
+    <div><h4>Experiencias</h4><a href="simuladores.html">Simuladores</a><a href="juegos.html">Juegos disponibles</a><a href="rc-drift.html">Coches RC</a><a href="eventos.html">Eventos y cumpleaños</a></div>
+    <div><h4>Visítanos</h4><p>Monay Shopping – Nivel 2<br>Rayoloma, Av. González Suárez, 010107 Cuenca, Ecuador</p><p>L–S 09:00–21:00<br>D 09:00–19:00</p></div>
+    <div><h4>Contacto</h4><p>WhatsApp: 0998691805</p><p>Instagram: @cronosracing.ec</p><a href="reservar.html">Crear solicitud de reserva</a></div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Cronos Racing</span>
+    <span>Experiencias de simulación y RC Drift en Cuenca, Ecuador.</span>
+  </div>
+</footer>
+
+<script src="assets/js/promociones.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>
