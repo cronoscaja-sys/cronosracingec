@@ -1,0 +1,36 @@
+CRONOS RACING — APP ANDROID (PROYECTO DE ANDROID STUDIO)
+
+IMPORTANTE: Este ZIP contiene un PROYECTO DE CÓDIGO FUENTE ANDROID. NO ES UN APK.
+No se ha compilado ni probado en un teléfono. Necesitas Android Studio o un entorno
+Android con SDK para generar el instalador .apk.
+
+OBJETIVO
+- APP Android con icono oficial y pestañas Inicio / Rankings / Administrar.
+- Abre la web pública de Cronos Racing (se necesita Internet).
+- En Administrar, abre el formulario de inicio de sesión del módulo rankings.html.
+- Juegos, pistas y tiempos usan el mismo Firebase configurado en la web V13.
+- La seguridad NO reside en el botón de Android; depende de Firebase Auth y reglas Firestore.
+
+ANTES DE COMPILAR
+1. Publica el contenido de 'sitio' de la V13 en la ruta existente de GitHub Pages.
+2. Comprueba que rankings.html se ve en la web pública.
+3. Activa Firebase Authentication > Correo/contraseña.
+4. Crea Firestore y publica las reglas del archivo firestore.rules de V13.
+5. Crea una cuenta Auth; en Firestore crea admins/<UID> con enabled:true.
+6. Prueba el inicio de sesión y el registro desde el navegador.
+
+GENERAR APK CON ANDROID STUDIO
+1. Instala Android Studio desde https://developer.android.com/studio .
+2. Abre la carpeta Cronos_Racing_Android_Studio_V1 como proyecto.
+3. Deja que Android Studio instale Gradle y Android SDK necesarios (compileSdk 35).
+4. Build > Build App Bundle(s) / APK(s) > Build APK(s).
+5. Obtendrás un APK de prueba en app/build/outputs/apk/debug/app-debug.apk.
+6. Instálalo en Android y abre Inicio / Rankings / Administrar.
+
+NOTAS
+- La subida de imágenes locales de una web estática NO las publica para todos.
+- La V13 permite añadir/eliminar registros; edición detallada de vueltas y perfiles
+  todavía requiere ampliación.
+- Para publicar en Google Play es necesario preparar firma de distribución,
+  políticas y el registro como desarrollador.
+- Si cambia el dominio o repositorio, actualiza HOME y RANKINGS en MainActivity.java.
