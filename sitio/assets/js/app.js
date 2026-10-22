@@ -250,4 +250,29 @@ WhatsApp: 0998691805`;
     }
   }
 
-});AGREGAR_A_APP_JS.txt
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const menu = document.querySelector('.nav-links');
+
+  if (!menu ||
+      menu.querySelector('a[href="campeonatos.html"]')) {
+    return;
+  }
+
+  const ref = menu.querySelector('a[href="eventos.html"]');
+
+  const link = document.createElement('a');
+  link.href = 'campeonatos.html';
+  link.textContent = 'Campeonatos';
+
+  if (location.pathname.endsWith('/campeonatos.html')) {
+    link.classList.add('active');
+  }
+
+  if (ref) {
+    ref.insertAdjacentElement('afterend', link);
+  } else {
+    menu.appendChild(link);
+  }
+});
+
