@@ -527,3 +527,37 @@ input,select,textarea{min-width:0;max-width:100%}
 .promo-custom-slide img{object-fit:contain;background:#07090d}
 .promo-custom-slide:has(.featured-overlay) img{object-fit:cover}
 @media(max-width:640px){.promo-form{grid-template-columns:1fr}.promo-admin-content{padding:0 12px 16px}.promo-wrap .featured-slider{height:290px}}
+
+/* CRONOS RACING - MENU SUPERIOR */
+
+@media (min-width: 1101px) {
+  .nav {
+    gap: 18px;
+  }
+
+  .brand img {
+    width: 175px;
+  }
+
+  .nav-links {
+    gap: 20px;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  .nav-links a {
+    white-space: nowrap;
+    padding: 25px 0 20px;
+  }
+
+  .nav-links .nav-cta {
+    padding: 12px 14px !important;
+  }
+}
+
+/* Menu para tablets y celulares */
+@media (max-width: 1100px) {
+  .nav-links {
+    gap: 8px;
+  }
+}
