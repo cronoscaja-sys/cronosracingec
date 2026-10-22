@@ -18,8 +18,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
     // La aplicación carga la MISMA web y el MISMO Firebase que utilizan los clientes.
     // Publica la web V14 en GitHub antes de instalar esta app.
-    private static final String HOME = "https://cronoscaja-sys.github.io/cronosracingec/sitio/index.html";
-    private static final String RANKINGS = "https://cronoscaja-sys.github.io/cronosracingec/sitio/rankings.html";
+    private static final String HOME = "https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#proximos";
+    private static final String RANKINGS = "https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#resultados";
     private WebView web;
     private ProgressBar progress;
     private ValueCallback<Uri[]> pendingFile;
@@ -65,8 +65,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.home).setOnClickListener(v -> web.loadUrl(HOME));
         findViewById(R.id.rankings).setOnClickListener(v -> web.loadUrl(RANKINGS));
         findViewById(R.id.admin).setOnClickListener(v -> {
-            web.loadUrl(RANKINGS);
-            Toast.makeText(this, "En Rankings, abre Acceso de administración e inicia sesión", Toast.LENGTH_LONG).show();
+            web.loadUrl("https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#admin");
         });
         web.loadUrl(HOME);
     }
