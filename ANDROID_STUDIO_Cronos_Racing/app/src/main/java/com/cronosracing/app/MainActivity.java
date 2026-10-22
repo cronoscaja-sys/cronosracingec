@@ -16,9 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    // La aplicación carga la MISMA web y el MISMO Firebase que utilizan los clientes.
-    // Publica la web V14 en GitHub antes de instalar esta app.
-    private static final String HOME = "https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#proximos";
+    // Panel de campeonatos conectado con la misma base Firebase y web pública.
+    private static final String HOME = "https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#admin";
     private static final String RANKINGS = "https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#resultados";
     private WebView web;
     private ProgressBar progress;
@@ -62,13 +61,22 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-        findViewById(R.id.home).setOnClickListener(v -> web.loadUrl(HOME));
-        findViewById(R.id.rankings).setOnClickListener(v -> web.loadUrl(RANKINGS));
-        findViewById(R.id.admin).setOnClickListener(v -> {
-            web.loadUrl("https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#admin");
-        });
+        findViewById(R.id.home).setOnClickListener(v -> openSection("proximos"));
+        findViewById(R.id.rankings).setOnClickListener(v -> openSection("resultados"));
+        findViewById(R.id.admin).setOnClickListener(v -> openSection("admin"));
         web.loadUrl(HOME);
     }
+    private void openSection(String section) {
+        // Cambia solo la seccion de la pagina y mantiene la sesion de Firebase.
+        // El sitio usa hashchange para enfocar la seccion correcta.
+        String url=web.getUrl();
+        if(url != null && url.startsWith("https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html")) {
+            web.evaluateJavascript("window.location.hash='#" + section + "'; document.getElementById('" + section + "')?.scrollIntoView();", null);
+        } else {
+            web.loadUrl("https://cronoscaja-sys.github.io/cronosracingec/sitio/campeonatos.html?app=1#" + section);
+        }
+    }
+
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         if (requestCode == PICK_FILE && pendingFile != null) {
