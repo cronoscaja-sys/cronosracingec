@@ -8,6 +8,7 @@
 .champ-entry-form .champ-action-row{display:flex;gap:8px;flex-wrap:wrap;}
 .champ-group h4{color:#f3f6fc;}
 @media(max-width:600px){.champ-entry-form{padding:12px}.champ-entry-form .champ-btn{min-height:42px}.champ-entry-form h3{font-size:22px}}
+
 /* CRONOS RACING V18 - separadores de tandas y navegacion de 20 pilotos */
 .cr-tanda { margin: 18px 0 23px; padding: 12px; background: #090f19; border: 1px solid #293b50; border-radius: 12px; }
 .cr-tanda + .cr-tanda { margin-top: 28px; }
@@ -18,3 +19,14 @@
 .cr-pages button:disabled { opacity: .28; cursor: not-allowed; }
 .cr-pages span { text-align: center; color: #dbe6f5; font-size: 12px; }
 @media (max-width: 600px) { .cr-tanda { padding: 7px; } .cr-pages { gap: 6px; } .cr-pages button { min-width: 42px; padding: 8px 10px; } }
+
+/* V19: administración cómoda en Android */
+.cr-campeonatos.app-mode .champ-entry-form{padding:14px;margin:12px 0}
+.cr-campeonatos.app-mode .admin-card{padding:14px}
+.cr-campeonatos.app-mode .champ-btn{min-height:43px}
+.cr-campeonatos.app-mode .admin-form label{font-size:14px}
+.cr-campeonatos.app-mode .champ-hero{padding:12px 0 10px}
+.cr-campeonatos.app-mode .champ-hero h1{font-size:29px;margin:6px 0}
+.cr-campeonatos.app-mode .champ-hero p{font-size:12px;margin:0}
+.cr-campeonatos.app-mode .champ-topnav{display:none}
+@media(max-width:600px){.champ-action-row .champ-btn{flex:1 1 42%}.champ-table{font-size:12px}}
