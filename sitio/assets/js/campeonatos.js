@@ -67,3 +67,53 @@ details.addEventListener('submit',async e=>{const f=e.target;if(!['pilotRegister
  }catch(err){message('No se guardó: '+err.message)}});
 details.addEventListener('click',async e=>{if(e.target.id!=='deletePilot')return;const f=$('lapManage'),trackId=f?.elements.track.value,pilotId=f?.elements.pilot.value;if(!pilotId||!confirm('¿Eliminar este piloto y todas sus vueltas?'))return;try{await modify(c=>{const t=c.tracks.find(t=>t.id===trackId);mutableTrack(t);t.pilots=t.pilots.filter(p=>p.id!==pilotId);return 'Piloto eliminado'})}catch(err){message('No se guardó: '+err.message)}});
 function handleHash(){const h=location.hash.slice(1);if(['admin','resultados','proximos'].includes(h))$(h)?.scrollIntoView()};window.addEventListener('hashchange',handleHash);setTimeout(handleHash,400);
+// CRONOS RACING V18: tandas visuales de cinco, 20 pilotos por pagina.
+// Anadir al FINAL de sitio/assets/js/campeonatos.js; no borra datos existentes.
+const paginasV18 = new Map();
+card = function(c, detail) {
+  const st = statusLabel[c.status] || 'Campeonato';
+  const pistas = (c.tracks || []).map(t => {
+    const pilotos = ranked(t);
+    const pendientes = pilotsOf(t).filter(p => !Number.isFinite(best(p)));
+    const key = `${c.id}:${t.id}`;
+    const total = Math.max(1, Math.ceil(pilotos.length / 20));
+    const pagina = Math.min(Math.max(0, paginasV18.get(key) || 0), total - 1);
+    paginasV18.set(key, pagina);
+    const inicio = pagina * 20;
+    const visibles = pilotos.slice(inicio, inicio + 20);
+    const tandas = [];
+    for (let k = 0; k < visibles.length; k += 5) {
+      const cinco = visibles.slice(k, k + 5);
+      const desde = inicio + k + 1;
+      const hasta = desde + cinco.length - 1;
+      const columnas = Math.max(4, ...cinco.map(p => (p.laps || []).length));
+      const filas = cinco.map((p, i) => {
+        const tiempos = (p.laps || []).map(ms);
+        const validos = tiempos.filter(Number.isFinite);
+        const minimo = Math.min(...validos), maximo = Math.max(...validos);
+        const celdas = Array.from({length: columnas}, (_, j) => {
+          const valor = (p.laps || [])[j] || '—';
+          const num = ms(valor);
+          const clase = Number.isFinite(num) ? (num === minimo ? 'champ-best' : num === maximo ? 'champ-worst' : '') : '';
+          return `<td class="${clase}">${esc(valor)}</td>`;
+        }).join('');
+        return `<tr><td>${desde + i}</td><td>${esc(p.name)}</td>${celdas}<td class="champ-best">${Number.isFinite(minimo) ? showMs(minimo) : '—'}</td></tr>`;
+      }).join('');
+      tandas.push(`<section class="cr-tanda"><h4>Tanda ${Math.floor((desde - 1) / 5) + 1} <span>· posiciones ${desde}–${hasta}</span></h4><div class="champ-scroll"><table class="champ-table"><thead><tr><th>Pos.</th><th>Piloto</th>${Array.from({length:columnas},(_,j)=>`<th>Vuelta ${j+1}</th>`).join('')}<th>Mejor tiempo</th></tr></thead><tbody>${filas}</tbody></table></div></section>`);
+    }
+    const controles = total > 1 ? `<nav class="cr-pages" aria-label="Paginas de pilotos"><button type="button" data-cr-page="-1" data-cr-key="${esc(key)}" ${pagina===0?'disabled':''} aria-label="Ver 20 pilotos anteriores">❮</button><span>Posiciones ${inicio + 1}–${Math.min(inicio+20,pilotos.length)} de ${pilotos.length} · Página ${pagina+1}/${total}</span><button type="button" data-cr-page="1" data-cr-key="${esc(key)}" ${pagina===total-1?'disabled':''} aria-label="Ver siguientes 20 pilotos">❯</button></nav>` : '';
+    return `<details class="champ-track" open><summary>🏁 ${esc(t.name)} · ${pilotos.length} pilotos con tiempo</summary>${tandas.join('') || '<p class="hint">Aún no hay tiempos registrados.</p>'}${controles}${pendientes.length?`<p class="hint">Pilotos pendientes de cronometrar: ${pendientes.map(p=>esc(p.name)).join(', ')}</p>`:''}<p class="hint"><span class="champ-best">Verde: mejor vuelta</span> · <span class="champ-worst">Rojo: peor vuelta</span></p></details>`;
+  }).join('');
+  return `<article class="champ-card"><span class="champ-pill ${c.status==='finalizado'?'red':'green'}">${esc(st)}</span><span class="champ-pill">${esc(c.game||'Juego por definir')}</span><h3>${esc(c.name)}</h3><p>${esc(c.description||'Información y resultados del campeonato.')}</p><p>📅 ${esc(c.date||'Fecha por definir')}</p>${detail?(pistas||'<div class="champ-empty">Pistas y resultados pendientes de publicación.</div>'):''}</article>`;
+};
+$('results').addEventListener('click', event => {
+  const boton = event.target.closest('button[data-cr-page]');
+  if (!boton || boton.disabled) return;
+  const key = boton.dataset.crKey;
+  const avance = Number(boton.dataset.crPage);
+  paginasV18.set(key, (paginasV18.get(key) || 0) + avance);
+  const scrollAnterior = window.scrollY;
+  render();
+  window.scrollTo({top:scrollAnterior,behavior:'instant'});
+});
+render();
