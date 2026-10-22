@@ -8,8 +8,8 @@
     <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="3dp" android:progressTint="#FF1724" />
     <WebView android:id="@+id/webview" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
     <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:background="#0F1520" android:orientation="horizontal" android:padding="4dp">
-      <Button android:id="@+id/home" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Inicio" android:textAllCaps="false" />
-      <Button android:id="@+id/rankings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Rankings" android:textAllCaps="false" />
+      <Button android:id="@+id/home" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Próximos" android:textAllCaps="false" />
+      <Button android:id="@+id/rankings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Resultados" android:textAllCaps="false" />
       <Button android:id="@+id/admin" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Administrar" android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>
