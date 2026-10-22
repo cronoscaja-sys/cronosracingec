@@ -38,8 +38,8 @@ function mutableTrack(t){if(!Array.isArray(t.pilots)){t.pilots=pilotsOf(t);delet
 async function save(c){if(!isAdmin||!user)throw Error('Acceso no autorizado');const {id,...data}=c;await updateDoc(doc(db,'campeonatos',id),{...data,updatedAt:serverTimestamp()})}
 $('newChamp').addEventListener('submit',async e=>{e.preventDefault();if(!isAdmin)return;const d=new FormData(e.target);try{await addDoc(collection(db,'campeonatos'),{name:String(d.get('name')).trim(),game:String(d.get('game')).trim(),date:String(d.get('date')),status:String(d.get('status')),description:String(d.get('description')).trim(),tracks:[],createdAt:serverTimestamp(),updatedAt:serverTimestamp()});e.target.reset();message('Campeonato creado')}catch(err){message('Error al crear campeonato: '+err.message)}});
 const details=$('editDetails');
-const formHtml=`<p class="hint">Los grupos se organizan automáticamente cada cinco pilotos, ordenados por su mejor vuelta. Puedes registrar una vuelta nueva por vez; se conserva el historial completo.</p>
-<div class="champ-action-row"><button type="button" class="champ-btn muted" data-action="addTrack">+ Pista</button><button type="button" class="champ-btn muted" data-action="changeStatus">Cambiar estado</button><button type="button" class="champ-btn muted" data-action="deleteChamp">Eliminar campeonato</button></div>
+const formHtml=`<p class="hint">Los pilotos se ordenan por su mejor vuelta y se muestran en tandas de cinco (20 por página). No es necesario crear grupos. Puedes registrar una vuelta nueva por vez; se conserva el historial completo.</p>
+<div class="champ-action-row"><button type="button" class="champ-btn muted" data-action="addTrack">+ Pista</button><button type="button" class="champ-btn muted" data-action="editChamp">Editar campeonato</button><button type="button" class="champ-btn muted" data-action="editTrack">Renombrar pista</button><button type="button" class="champ-btn muted" data-action="deleteTrack">Eliminar pista</button><button type="button" class="champ-btn muted" data-action="renamePilot">Renombrar piloto</button><button type="button" class="champ-btn muted" data-action="changeStatus">Cambiar estado</button><button type="button" class="champ-btn muted" data-action="deleteChamp">Eliminar campeonato</button></div>
 <form id="pilotRegister" class="admin-form champ-entry-form"><h3>Registrar piloto</h3><label>Pista<select name="track" data-tracks required></select></label><label>Nombre del piloto<input name="pilot" placeholder="Nombre y apellido" required maxlength="80"></label><button class="champ-btn" type="submit">+ Agregar piloto</button></form>
 <form id="lapRegister" class="admin-form champ-entry-form"><h3>Registrar una vuelta</h3><label>Pista<select name="track" data-tracks required></select></label><label>Piloto<select name="pilot" id="lapPilot" required></select></label><label>Tiempo de vuelta<input name="lap" placeholder="01:42.350" pattern="[0-9]{1,3}:[0-5][0-9]\\.[0-9]{3}" required></label><button class="champ-btn" type="submit">+ Guardar vuelta</button></form>
 <form id="lapManage" class="admin-form champ-entry-form"><h3>Corregir o eliminar vueltas</h3><label>Pista<select name="track" data-tracks required></select></label><label>Piloto<select name="pilot" id="managePilot" required></select></label><label>Vuelta<select name="lapIndex" id="manageLap" required></select></label><label>Nuevo tiempo<input name="lap" placeholder="01:42.350 (opcional)"></label><div class="champ-action-row"><button class="champ-btn muted" type="submit" data-op="edit">Corregir vuelta</button><button class="champ-btn muted" type="submit" data-op="delete">Eliminar vuelta</button><button class="champ-btn muted" type="button" id="deletePilot">Eliminar piloto</button></div></form>`;
@@ -57,6 +57,39 @@ details.addEventListener('change',e=>{const f=e.target.closest('form');if(e.targ
 async function modify(fn){const orig=chosen();if(!orig||!isAdmin)throw Error('Selecciona un campeonato e inicia sesión');const c=structuredClone(orig);const msg=fn(c);if(msg===false)return;await save(c);message(msg||'Datos guardados y publicados. Grupos recalculados automáticamente.')}
 details.addEventListener('click',async e=>{const action=e.target.closest('[data-action]')?.dataset.action;if(!action)return;try{
 if(action==='addTrack'){const name=prompt('Nombre de la pista (por ejemplo: Guantug)')?.trim();if(!name)return;await modify(c=>{if(c.tracks.some(t=>t.name.localeCompare(name,'es',{sensitivity:'base'})===0))throw Error('La pista ya existe');c.tracks.push({id:uid(),name,pilots:[]});return 'Pista agregada'})}
+if(action==='editChamp'){
+ const current=chosen(); if(!current)throw Error('Selecciona un campeonato');
+ const name=prompt('Nombre del campeonato',current.name)?.trim();if(name===undefined||!name)return;
+ const game=prompt('Juego del campeonato',current.game||'')?.trim();if(game===undefined||!game)return;
+ const date=prompt('Fecha (AAAA-MM-DD)',current.date||'')?.trim();if(date===undefined)return;
+ if(date&&!/^\d{4}-\d{2}-\d{2}$/.test(date))throw Error('Fecha incorrecta: usa AAAA-MM-DD');
+ const description=prompt('Descripción del campeonato',current.description||'');if(description===null)return;
+ await modify(c=>{c.name=name;c.game=game;c.date=date;c.description=description.trim();return 'Campeonato actualizado';});
+}
+if(action==='editTrack'||action==='deleteTrack'){
+ const current=chosen();const tracks=current?.tracks||[];if(!tracks.length)throw Error('Agrega una pista primero');
+ const names=tracks.map(t=>t.name).join(' / ');
+ const oldName=prompt('Nombre de pista a gestionar: '+names,tracks[0].name)?.trim();if(!oldName)return;
+ const target=tracks.find(t=>t.name.toLocaleLowerCase('es')===oldName.toLocaleLowerCase('es'));
+ if(!target)throw Error('Pista no encontrada');
+ if(action==='deleteTrack'){
+  if(!confirm('¿Eliminar '+target.name+' y TODOS sus pilotos y vueltas? Esta acción no se puede deshacer.'))return;
+  await modify(c=>{c.tracks=c.tracks.filter(t=>t.id!==target.id);return 'Pista eliminada';});
+ } else {
+  const newName=prompt('Nuevo nombre de la pista',target.name)?.trim();if(!newName)return;
+  await modify(c=>{if(c.tracks.some(t=>t.id!==target.id&&t.name.toLocaleLowerCase('es')===newName.toLocaleLowerCase('es')))throw Error('Ya existe una pista con ese nombre');c.tracks.find(t=>t.id===target.id).name=newName;return 'Nombre de pista actualizado';});
+ }
+}
+if(action==='renamePilot'){
+ const current=chosen();const tracks=current?.tracks||[];if(!tracks.length)throw Error('No hay pistas');
+ const trackName=prompt('Nombre de pista: '+tracks.map(t=>t.name).join(' / '),tracks[0].name)?.trim();if(!trackName)return;
+ const t=tracks.find(t=>t.name.toLocaleLowerCase('es')===trackName.toLocaleLowerCase('es'));if(!t)throw Error('Pista no encontrada');
+ const ps=pilotsOf(t);if(!ps.length)throw Error('No hay pilotos');
+ const oldName=prompt('Piloto a renombrar: '+ps.map(p=>p.name).join(' / '),ps[0].name)?.trim();if(!oldName)return;
+ const p=ps.find(p=>p.name.toLocaleLowerCase('es')===oldName.toLocaleLowerCase('es'));if(!p)throw Error('Piloto no encontrado');
+ const newName=prompt('Nombre corregido del piloto',p.name)?.trim();if(!newName)return;
+ await modify(c=>{const x=c.tracks.find(x=>x.id===t.id);mutableTrack(x);if(x.pilots.some(q=>q.id!==p.id&&q.name.toLocaleLowerCase('es')===newName.toLocaleLowerCase('es')))throw Error('Ya existe otro piloto con ese nombre');x.pilots.find(q=>q.id===p.id).name=newName;return 'Nombre del piloto actualizado';});
+}
 if(action==='changeStatus'){const status=prompt('Estado: proximo, en_curso, finalizado',chosen()?.status||'proximo')?.trim();if(!status)return;if(!statusLabel[status])throw Error('Estado no válido');await modify(c=>{c.status=status;return 'Estado actualizado'})}
 if(action==='deleteChamp'){if(!confirm('¿Eliminar permanentemente este campeonato y todos sus pilotos y vueltas?'))return;const c=chosen();await deleteDoc(doc(db,'campeonatos',c.id));message('Campeonato eliminado')}
 }catch(err){message('No se guardó: '+err.message)}});
@@ -67,6 +100,7 @@ details.addEventListener('submit',async e=>{const f=e.target;if(!['pilotRegister
  }catch(err){message('No se guardó: '+err.message)}});
 details.addEventListener('click',async e=>{if(e.target.id!=='deletePilot')return;const f=$('lapManage'),trackId=f?.elements.track.value,pilotId=f?.elements.pilot.value;if(!pilotId||!confirm('¿Eliminar este piloto y todas sus vueltas?'))return;try{await modify(c=>{const t=c.tracks.find(t=>t.id===trackId);mutableTrack(t);t.pilots=t.pilots.filter(p=>p.id!==pilotId);return 'Piloto eliminado'})}catch(err){message('No se guardó: '+err.message)}});
 function handleHash(){const h=location.hash.slice(1);if(['admin','resultados','proximos'].includes(h))$(h)?.scrollIntoView()};window.addEventListener('hashchange',handleHash);setTimeout(handleHash,400);
+
 // CRONOS RACING V18: tandas visuales de cinco, 20 pilotos por pagina.
 // Anadir al FINAL de sitio/assets/js/campeonatos.js; no borra datos existentes.
 const paginasV18 = new Map();
@@ -117,3 +151,4 @@ $('results').addEventListener('click', event => {
   window.scrollTo({top:scrollAnterior,behavior:'instant'});
 });
 render();
+
