@@ -8,3 +8,13 @@
 .champ-entry-form .champ-action-row{display:flex;gap:8px;flex-wrap:wrap;}
 .champ-group h4{color:#f3f6fc;}
 @media(max-width:600px){.champ-entry-form{padding:12px}.champ-entry-form .champ-btn{min-height:42px}.champ-entry-form h3{font-size:22px}}
+/* CRONOS RACING V18 - separadores de tandas y navegacion de 20 pilotos */
+.cr-tanda { margin: 18px 0 23px; padding: 12px; background: #090f19; border: 1px solid #293b50; border-radius: 12px; }
+.cr-tanda + .cr-tanda { margin-top: 28px; }
+.cr-tanda h4 { margin: 0 0 12px; font: 800 15px Arial, sans-serif; text-transform: uppercase; color: #f5f7fb; border-left: 4px solid #f52232; padding: 5px 10px; }
+.cr-tanda h4 span { font-size: 12px; color: #b7c7d8; font-weight: 500; text-transform: none; }
+.cr-pages { display: flex; align-items: center; justify-content: center; gap: 15px; padding: 16px 0; flex-wrap: wrap; }
+.cr-pages button { color: white; background: #df1425; border: 0; border-radius: 10px; padding: 10px 18px; min-width: 48px; font-size: 21px; cursor: pointer; }
+.cr-pages button:disabled { opacity: .28; cursor: not-allowed; }
+.cr-pages span { text-align: center; color: #dbe6f5; font-size: 12px; }
+@media (max-width: 600px) { .cr-tanda { padding: 7px; } .cr-pages { gap: 6px; } .cr-pages button { min-width: 42px; padding: 8px 10px; } }
