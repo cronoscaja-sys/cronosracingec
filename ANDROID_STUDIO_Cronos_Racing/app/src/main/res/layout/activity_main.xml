@@ -3,13 +3,13 @@
  android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#07090D">
     <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:gravity="center_vertical" android:orientation="horizontal" android:background="#080A0F" android:paddingHorizontal="16dp">
       <ImageView android:layout_width="38dp" android:layout_height="38dp" android:src="@drawable/logo" android:contentDescription="Cronos Racing"/>
-      <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:text="CRONOS RACING" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="18sp" />
+      <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:text="CRONOS · CAMPEONATOS" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="16sp" />
     </LinearLayout>
     <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="3dp" android:progressTint="#FF1724" />
     <WebView android:id="@+id/webview" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
     <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:background="#0F1520" android:orientation="horizontal" android:padding="4dp">
       <Button android:id="@+id/home" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Próximos" android:textAllCaps="false" />
       <Button android:id="@+id/rankings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Resultados" android:textAllCaps="false" />
-      <Button android:id="@+id/admin" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Administrar" android:textAllCaps="false" />
+      <Button android:id="@+id/admin" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="Gestionar" android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>
