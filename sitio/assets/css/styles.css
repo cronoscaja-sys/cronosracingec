@@ -562,11 +562,11 @@ input,select,textarea{min-width:0;max-width:100%}
   }
 }
 
-/* Derechos reservados y crédito web */
+
 .copyright-cronos {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .copyright-cronos span {
@@ -576,7 +576,6 @@ input,select,textarea{min-width:0;max-width:100%}
 
 .copyright-cronos small {
   font-size: 10px;
-  color: #687384;
+  color: #778293;
   font-weight: 400;
-  letter-spacing: 0.2px;
 }
