@@ -108,6 +108,7 @@ card = function(c, detail) {
   const st = statusLabel[c.status] || 'Campeonato';
   const pistas = (c.tracks || []).map(t => {
     const pilotos = ranked(t);
+    const tiempoLider = pilotos.length ? best(pilotos[0]) : Infinity;
     const pendientes = pilotsOf(t).filter(p => !Number.isFinite(best(p)));
     const key = `${c.id}:${t.id}`;
     const total = Math.max(1, Math.ceil(pilotos.length / 20));
@@ -131,9 +132,14 @@ card = function(c, detail) {
           const clase = Number.isFinite(num) ? (num === minimo ? 'champ-best' : num === maximo ? 'champ-worst' : '') : '';
           return `<td class="${clase}">${esc(valor)}</td>`;
         }).join('');
-        return `<tr><td>${desde + i}</td><td>${esc(p.name)}</td>${celdas}<td class="champ-best">${Number.isFinite(minimo) ? showMs(minimo) : '—'}</td></tr>`;
+        return `<tr><td>${desde + i}</td><td>${esc(p.name)}</td>${celdas}
+<td class="champ-best">${Number.isFinite(minimo) ? showMs(minimo) : '—'}</td>
+<td class="cr-gap">${desde + i === 1
+  ? '<strong class="champ-best">LÍDER</strong>'
+  : `+${((minimo - tiempoLider) / 1000).toFixed(3)}`
+}</td></tr>`;
       }).join('');
-      tandas.push(`<section class="cr-tanda"><h4>Tanda ${Math.floor((desde - 1) / 5) + 1} <span>· posiciones ${desde}–${hasta}</span></h4><div class="champ-scroll"><table class="champ-table"><thead><tr><th>Pos.</th><th>Piloto</th>${Array.from({length:columnas},(_,j)=>`<th>Vuelta ${j+1}</th>`).join('')}<th>Mejor tiempo</th></tr></thead><tbody>${filas}</tbody></table></div></section>`);
+      tandas.push(`<section class="cr-tanda"><h4>Tanda ${Math.floor((desde - 1) / 5) + 1} <span>· posiciones ${desde}–${hasta}</span></h4><div class="champ-scroll"><table class="champ-table"><thead><tr><th>Pos.</th><th>Piloto</th>${Array.from({length:columnas},(_,j)=>`<th>Vuelta ${j+1}</th>`).join('')}<th>Mejor tiempo</th><th>Dif. líder</th></tr></thead><tbody>${filas}</tbody></table></div></section>`);
     }
     const controles = total > 1 ? `<nav class="cr-pages" aria-label="Paginas de pilotos"><button type="button" data-cr-page="-1" data-cr-key="${esc(key)}" ${pagina===0?'disabled':''} aria-label="Ver 20 pilotos anteriores">❮</button><span>Posiciones ${inicio + 1}–${Math.min(inicio+20,pilotos.length)} de ${pilotos.length} · Página ${pagina+1}/${total}</span><button type="button" data-cr-page="1" data-cr-key="${esc(key)}" ${pagina===total-1?'disabled':''} aria-label="Ver siguientes 20 pilotos">❯</button></nav>` : '';
     return `<details class="champ-track" open><summary>🏁 ${esc(t.name)} · ${pilotos.length} pilotos con tiempo</summary>${tandas.join('') || '<p class="hint">Aún no hay tiempos registrados.</p>'}${controles}${pendientes.length?`<p class="hint">Pilotos pendientes de cronometrar: ${pendientes.map(p=>esc(p.name)).join(', ')}</p>`:''}<p class="hint"><span class="champ-best">Verde: mejor vuelta</span> · <span class="champ-worst">Rojo: peor vuelta</span></p></details>`;
